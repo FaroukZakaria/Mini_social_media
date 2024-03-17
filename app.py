@@ -4,17 +4,34 @@ Main app
 """
 
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 # Initialize Flask app
 app = Flask(__name__)
 
 # Configure SQLAlchemy to connect to the database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://demo:password@localhost/platform_data'
+engine = create_engine('mysql://public:password@localhost/platform_data')
 
 
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
+# Define a declarative base
+Base = declarative_base()
+
+
+# Define your SQLAlchemy models
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), unique=True, nullable=False)
+    email = Column(String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f'<User(id={self.id}, username={self.username}, email={self.email})>'
+
+# Create the tables in the database
+Base.metadata.create_all(engine)
 
 ##############################################################################
 
@@ -29,23 +46,5 @@ def index():
 # PLACEHOLDER FOR MORE ROUTES
 
 
-class User(db.Model):
-    """
-    User Model
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-
 if __name__ == "__main__":
-    try:
-        # Try to create a connection to the database
-        # db.create_all()
-        app.run(host='0.0.0.0', port=5000)
-    except Exception as e:
-        # If an error occurs, print the error message
-        app.logger.error("Error connecting to the database:", e)
+    app.run(host='0.0.0.0', port=5000)
