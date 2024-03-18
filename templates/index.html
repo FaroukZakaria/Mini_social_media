@@ -5,9 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Social Media</title>
+    <!-- Add CSS styles for flashed messages -->
+    <style>
+    /* Define the style for success messages */
+    .flash-success {
+	    color: green;
+    }
+    </style>
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <h1>Welcome to my Mini Social Media website</h1>
+    <!-- Display flashed messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <!-- Check if the message contains 'success' to apply the correct style -->
+                    {% if 'success' in message %}
+                        <li class="flash-success">{{ message }}</li>
+                    {% else %}
+                        <li>{{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>

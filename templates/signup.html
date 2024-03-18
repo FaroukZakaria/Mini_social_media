@@ -9,14 +9,14 @@
 <body>
     <div class="signup-container">
         <h2>Create Your Account</h2>
-        <form action="/signup" method="POST">
+        <form action="/signup" method="POST" id="signup-form">
             <div class="form-group">
-                <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname" required>
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="fullname" required>
             </div>
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="username" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
@@ -26,7 +26,7 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-			<div class="form-group">
+                        <div class="form-group">
                 <label for="confirmedPassword">Confirm Password</label>
                 <input type="password" id="confirmedPassword" name="confirmedPassword" required>
             </div>
@@ -38,5 +38,29 @@
             </div>
         </form>
     </div>
+        {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                        <div id="flash-messages">
+                                {% for message in messages %}
+                                        <div class="alert alert-info" role="alert">{{ message }}</div>
+                                {% endfor %}
+                        </div>
+                {% endif %}
+        {% endwith %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+	        const passwordInput = document.getElementById('password');
+        	const confirmPasswordInput = document.getElementById('confirmedPassword');
+	        const form = document.getElementById('signup-form');
+
+        	form.addEventListener('submit', function (event) {
+	            if (passwordInput.value !== confirmPasswordInput.value) {
+        	        event.preventDefault();
+                	alert('Passwords do not match');
+	            }
+        	});
+	    });
+	</script>
+
 </body>
 </html>
