@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
+    <!-- Include the navigation bar -->
+    {% include 'navbar.html' %}
+
     <h1>Welcome to my Mini Social Media website</h1>
     <!-- Display flashed messages -->
     {% with messages = get_flashed_messages() %}
