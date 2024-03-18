@@ -90,6 +90,13 @@ def about():
     """
     return render_template('about.html')
 
+@app.route('/navbar')
+def navbar():
+    """
+    Navigation bar at top
+    """
+    return render_template('navbar.html')
+
 # PLACEHOLDER FOR MORE ROUTES
 
 
