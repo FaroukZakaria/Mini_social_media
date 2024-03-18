@@ -35,6 +35,27 @@ def index():
     """
     return render_template('index.html')
 
+@app.route('/login', strict_slashes=False)
+def login():
+    """
+    Login page
+    """
+    return render_template('login.html')
+
+@app.route('/signup', strict_slashes=False)
+def signup():
+    """
+    Signup page
+    """
+    return render_template('signup.html')
+
+@app.route('/about', strict_slashes=False)
+def about():
+    """
+    About page
+    """
+    return render_template('about.html')
+
 # PLACEHOLDER FOR MORE ROUTES
 
 
