@@ -19,6 +19,7 @@ class User(Base):
     lastname = Column(String(60), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(120), nullable=False)
+    is_admin = False
 
     def __repr__(self):
         return "<User(id={}, first name={}, last name={}, email={})>".format(
