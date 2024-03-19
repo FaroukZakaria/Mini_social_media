@@ -82,6 +82,17 @@ def signup():
         return redirect(url_for('index'))
 
     return render_template('signup.html')
+    
+@app.route('/add_post', methods=['GET', 'POST'])
+def add_post():
+    if request.method == 'POST':
+        author = request.form['author']
+        title = request.form['title']
+        content = request.form['content']
+        #posts.append({'author': author, 'title': title, 'content': content})
+        flash('Post created successfully!', 'success')
+        return redirect(url_for('index'))
+    return render_template('post.html')
 
 @app.route('/about', strict_slashes=False)
 def about():
