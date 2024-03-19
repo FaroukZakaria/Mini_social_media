@@ -3,7 +3,7 @@
 Main app
 """
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -29,7 +29,7 @@ Base.metadata.create_all(engine)
 
 # Create a sessionmaker to handle database sessions
 Session = sessionmaker(bind=engine)
-session = Session()
+dbsession = Session()
 
 
 ##############################################################################
@@ -42,12 +42,45 @@ def index():
     """
     return render_template('index.html')
 
-@app.route('/login', strict_slashes=False)
+@app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
     """
     Login page
     """
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Get the given information from database
+        user = dbsession.query(User).filter_by(email=email).first()
+
+        # Check if credentials are correct
+        if user and user.password == hashlib.sha256(password.encode()).hexdigest():
+            # Set up the session for the user
+            session['user_id'] = user.id
+            session['is_admin'] = user.is_admin
+            session['user_firstname'] = user.firstname
+            flash('Logged in successfully!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid email or password.', 'error')
+            return redirect(url_for('login'))
+
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """
+    Log out. Adding a log out route is only for organization of code
+    and more complex operations in future if possible. I preferred this
+    method over just making the logout button act as a submit button (HTML)
+    """
+    session.pop('user_id', None)
+    session.pop('user_firstname', None)
+    session.pop('is_admin', None)
+
+    flash('Logged out successfully!', 'success')
+    return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'], strict_slashes=False)
 def signup():
@@ -55,11 +88,8 @@ def signup():
     Signup page
     """
     if request.method == 'POST':
-        print("starting")
         firstname = request.form['fullname']
-        print("first name")
         lastname = request.form['username']
-        print("last name")
         email = request.form['email']
         password = request.form['password']
 
@@ -73,8 +103,8 @@ def signup():
                 password=hashed_password
                 )
         # Adding new user to database
-        session.add(new_user)
-        session.commit()
+        dbsession.add(new_user)
+        dbsession.commit()
 
         # Flash a success message
         flash('Account created successfully!', 'success')
