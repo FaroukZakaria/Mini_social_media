@@ -75,9 +75,7 @@ def logout():
     and more complex operations in future if possible. I preferred this
     method over just making the logout button act as a submit button (HTML)
     """
-    session.pop('user_id', None)
-    session.pop('user_firstname', None)
-    session.pop('is_admin', None)
+    session.clear()
 
     flash('Logged out successfully!', 'success')
     return redirect(url_for('index'))
@@ -109,9 +107,36 @@ def signup():
         # Flash a success message
         flash('Account created successfully!', 'success')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     return render_template('signup.html')
+
+@app.route('/users')
+def users():
+    """
+    All users page
+    """
+    users = dbsession.query(User).all()
+    return render_template('users.html', users=users)
+
+@app.route('/users/<int:user_id>')
+def user_profile(user_id):
+    """
+    Show user profile
+    """
+    if 'user_id' in session:
+        curr_user = session['user_id']
+
+    user = dbsession.query(User).get(user_id)
+    if user:
+        if 'user_id' in session:
+            curr_user = session['user_id']
+            is_current_user = (user.id == curr_user)
+        else:
+            is_current_user = False
+        return render_template('profile.html', user=user, is_current_user=is_current_user)
+    else:
+        return "User not found", 404
 
 @app.route('/about', strict_slashes=False)
 def about():
