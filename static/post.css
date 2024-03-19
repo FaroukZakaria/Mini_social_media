@@ -1,0 +1,38 @@
+/* Styles for post form */
+.post-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.post-form input[type="text"],
+.post-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.post-form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.post-form button:hover {
+    background-color: #0056b3;
+}

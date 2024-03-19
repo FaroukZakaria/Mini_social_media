@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://public:password@localhost/platform_data')
+engine = create_engine('mysql://root:root@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -110,6 +110,19 @@ def signup():
         return redirect(url_for('login'))
 
     return render_template('signup.html')
+    
+@app.route('/addPost', methods=['GET', 'POST'], strict_slashes=False)
+def add_post():
+    if request.method == 'POST':
+        print("starting")
+        #author = request.form['author']
+        title = request.form['title']
+        content = request.form['content']
+        #posts.append({'author': author, 'title': title, 'content': content})
+        flash('Post created successfully!', 'success')
+        print("starting")
+        return redirect(url_for('index'))
+    return render_template('post.html')
 
 @app.route('/users')
 def users():
