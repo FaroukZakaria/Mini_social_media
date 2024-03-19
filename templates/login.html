@@ -10,10 +10,19 @@
     {% include 'navbar.html' %}
     <div class="login-container">
         <h2>Login to Your Account</h2>
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	        <div class="flashed-messages">
+		    {% for message in messages %}
+		        <div class="flash-message">{{ message }}</div>
+		    {% endfor %}
+		</div>
+	    {% endif %}
+	{% endwith %}
         <form action="/login" method="POST">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
