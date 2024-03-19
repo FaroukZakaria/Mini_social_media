@@ -10,6 +10,9 @@ body {
     z-index: 1000;
     overflow: hidden;
     background-color: #333; /* Dark background color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar a {
@@ -25,4 +28,15 @@ body {
 .navbar a:hover {
     background-color: #ddd; /* Hover background color */
     color: black;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-msg {
+    color: white;
+    margin-right: 25px;
+    font-family: Arial, sans-serif;
 }
