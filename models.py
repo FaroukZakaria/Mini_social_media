@@ -28,3 +28,17 @@ class User(Base):
                 self.lastname,
                 self.email
                 )
+
+class Post(Base):
+     __tablename__ = 'posts'
+     
+     id = Column(Integer, primary_key=True)
+     content = Column(String(60), nullable=False)
+     author = Column(String(60), nullable=False)
+     
+     def __repr__(self):
+         return "<Post(id={}, author={})>".format(
+                self.id,
+                self.content,
+                self.author
+                )

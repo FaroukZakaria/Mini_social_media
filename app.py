@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from models import User, Base
+from models import User, Base, Post
 import hashlib
 import secrets
 import string
@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://public:password@localhost/platform_data')
+engine = create_engine('mysql://root:root@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -113,16 +113,44 @@ def signup():
     
 @app.route('/addPost', methods=['GET', 'POST'], strict_slashes=False)
 def add_post():
+    
     if request.method == 'POST':
-        print("starting")
-        #author = request.form['author']
-        title = request.form['title']
+        curr_user = None
+        if 'user_id' in session:
+            curr_user = session['user_id']
+        
+        author = ""
+        if curr_user:
+            author = curr_user.firstname
         content = request.form['content']
-        #posts.append({'author': author, 'title': title, 'content': content})
+        newPost = Post(
+                author=author,
+                content=content
+                )
+        print(newPost)
+        # Adding new user to database
+        dbsession.add(newPost)
+        dbsession.commit()
         flash('Post created successfully!', 'success')
         print("starting")
         return redirect(url_for('index'))
     return render_template('post.html')
+
+@app.route('/posts')
+def show_posts():
+    
+    posts = dbsession.query(Post).all()
+    return render_template('posts.html', posts=posts)
+
+@app.route('/posts/<int:post_id>', strict_slashes=False)
+def show_post_byId(post_id):
+    
+    post = dbsession.query(Post).get(post_id)
+    if post:
+        return render_template('profile.html', post=post)
+    else:
+        return "User not found", 404
+    return render_template('posts.html', posts=[])
 
 @app.route('/users')
 def users():

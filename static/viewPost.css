@@ -1,0 +1,11 @@
+/* Styles for the specific post page */
+.post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.post-container p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
