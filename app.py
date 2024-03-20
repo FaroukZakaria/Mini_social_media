@@ -147,7 +147,7 @@ def show_post_byId(post_id):
     
     post = dbsession.query(Post).get(post_id)
     if post:
-        return render_template('profile.html', post=post)
+        return render_template('viewPost.html', post=post)
     else:
         return "User not found", 404
     return render_template('posts.html', posts=[])
