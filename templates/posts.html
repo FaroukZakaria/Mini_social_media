@@ -15,6 +15,7 @@
         {% for post in posts %}
             <li class="post-item">
                 <p>{{ post.content }}</p>
+		<p>Author: {{ authors[post.id] }}</p>
             </li>
         {% endfor %}
     </ul>
