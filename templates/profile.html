@@ -15,8 +15,8 @@
     </div>
     <h2>User Posts:</h2>
     <ul>
-        {% for post in user.posts %}
-	    <li><a href="/posts/{{ post.id }}">{{ post.title }}</a></li>
+        {% for post in user.user_posts %}
+	    <li><a href="/posts/{{ post.id }}">{{ post.content }}</a></li>
 	{% endfor %}
     </ul>
 </body>
