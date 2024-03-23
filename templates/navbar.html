@@ -15,7 +15,7 @@
 	</div>
 	<div class="navbar-right">
 	    {% if 'user_id' in session %}
-	        <span class="welcome-msg">Welcome: {{ session['user_firstname'] }}</span>
+	    <a href="/users/{{ session['user_id'] }}" class="welcome-msg">Welcome: {{ session['user_firstname'] }}</a>
 	        <a href="/logout">Logout</a>
 	    {% else %}
 	        <a href="/login">Login</a>
