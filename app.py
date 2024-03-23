@@ -142,17 +142,22 @@ def add_post():
 def show_posts():
     
     posts = dbsession.query(Post).all()
-    return render_template('posts.html', posts=posts)
+    
+    authors = {}
+    for post in posts:
+        author = dbsession.query(User).get(post.author_id)
+        authors[post.id] = f"{author.firstname} {author.lastname}"
+    return render_template('posts.html', posts=posts, authors=authors)
 
 @app.route('/posts/<int:post_id>', strict_slashes=False)
-def show_post_byId(post_id):
+def view_post(post_id):
     
     post = dbsession.query(Post).get(post_id)
     if post:
-        return render_template('viewPost.html', post=post)
+        author = dbsession.query(User).get(post.author_id)
+        return render_template('viewPost.html', post=post, author=author)
     else:
-        return "User not found", 404
-    return render_template('posts.html', posts=[])
+        return "Post not found", 404
 
 @app.route('/users')
 def users():
