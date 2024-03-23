@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://root:root@localhost/platform_data')
+engine = create_engine('mysql://public:password@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -115,25 +115,27 @@ def signup():
 def add_post():
     
     if request.method == 'POST':
-        curr_user = None
         if 'user_id' in session:
-            curr_user = session['user_id']
-        
-        author = ""
-        if curr_user:
-            author = curr_user.firstname
-        content = request.form['content']
-        newPost = Post(
-                author=author,
-                content=content
-                )
-        print(newPost)
-        # Adding new user to database
-        dbsession.add(newPost)
-        dbsession.commit()
-        flash('Post created successfully!', 'success')
-        print("starting")
-        return redirect(url_for('index'))
+            author_id = session['user_id']
+            author = dbsession.query(User).get(author_id)
+            content = request.form['content']
+
+            if content:
+                new_post = Post(
+                        author=author,
+                        content=content
+                        )
+                # Adding new pst to database
+                dbsession.add(new_post)
+                dbsession.commit()
+                flash('Post created successfully!', 'success')
+                return redirect(url_for('index'))
+            else:
+                flash('Content is required.', 'error')
+                return redirect(url_for('addPost'))
+        else:
+            flash('You must be logged in to create a post.', 'error')
+            return redirect(url_for('login'))
     return render_template('post.html')
 
 @app.route('/posts')
