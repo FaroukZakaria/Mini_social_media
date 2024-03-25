@@ -141,11 +141,15 @@ def add_post():
 @app.route('/posts')
 def show_posts():
     
+    if 'user_id' in session:
+        curr_user = session['user_id']
+    else:
+        curr_user = None
     posts = dbsession.query(Post).all()
 
-    likes = {}
+    likes = {}  # Amount of likes each post has
     all_likes = dbsession.query(Like).all()
-    user_likes = {}
+    user_likes = {}  # Users who liked each post
     for like in all_likes:
         if like.post_id not in user_likes:
             user_likes[like.post_id] = set()
@@ -158,15 +162,27 @@ def show_posts():
 
         likes[post.id] = post.likes
 
-    return render_template('posts.html', posts=posts, authors=authors, likes=likes, user_likes=user_likes)
+    return render_template('posts.html', posts=posts, curr_user=curr_user, authors=authors, likes=likes, user_likes=user_likes)
 
 @app.route('/posts/<int:post_id>', strict_slashes=False)
 def view_post(post_id):
-    
     post = dbsession.query(Post).get(post_id)
+    if 'user_id' in session:
+        user = dbsession.query(User).get(session['user_id'])
+    else:
+        user = None
+
     if post:
         author = dbsession.query(User).get(post.author_id)
-        return render_template('viewPost.html', post=post, author=author)
+
+        all_likes = dbsession.query(Like).all()
+        user_likes = {}
+        for like in all_likes:
+            if like.post_id not in user_likes:
+                user_likes[like.post_id] = set()
+            user_likes[like.post_id].add(like.user_id)
+
+        return render_template('viewPost.html', post=post, author=author, user=user, user_likes=user_likes)
     else:
         return "Post not found", 404
 
@@ -190,6 +206,7 @@ def like_post(post_id):
 
     post.likes += 1
     dbsession.commit()
+    return '', 204
 
 @app.route('/unlike_post/<int:post_id>', methods=['POST'])
 def unlike_post(post_id):
@@ -201,11 +218,13 @@ def unlike_post(post_id):
     if not post:
         return "Post not found", 404
 
-    db.session.delete(existing_like)
-    db.session.commit()
+    existing_like = dbsession.query(Like).filter_by(user_id=session['user_id'], post_id=post_id).first()
+    dbsession.delete(existing_like)
+    dbsession.commit()
 
     post.likes -= 1
-    db.session.commit()
+    dbsession.commit()
+    return '', 204
 
 @app.route('/users')
 def users():
