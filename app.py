@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from models import User, Base, Post
+from models import *
 import hashlib
 import secrets
 import string
@@ -142,12 +142,23 @@ def add_post():
 def show_posts():
     
     posts = dbsession.query(Post).all()
-    
+
+    likes = {}
+    all_likes = dbsession.query(Like).all()
+    user_likes = {}
+    for like in all_likes:
+        if like.post_id not in user_likes:
+            user_likes[like.post_id] = set()
+        user_likes[like.post_id].add(like.user_id)
+
     authors = {}
     for post in posts:
         author = dbsession.query(User).get(post.author_id)
         authors[post.id] = f"{author.firstname} {author.lastname}"
-    return render_template('posts.html', posts=posts, authors=authors)
+
+        likes[post.id] = post.likes
+
+    return render_template('posts.html', posts=posts, authors=authors, likes=likes, user_likes=user_likes)
 
 @app.route('/posts/<int:post_id>', strict_slashes=False)
 def view_post(post_id):
@@ -158,6 +169,43 @@ def view_post(post_id):
         return render_template('viewPost.html', post=post, author=author)
     else:
         return "Post not found", 404
+
+@app.route('/like_post/<int:post_id>', methods=['POST'])
+def like_post(post_id):
+    if 'user_id' not in session:
+        flash('You must be logged in to like a post', 'error')
+        return redirect(url_for('login'))
+
+    post = dbsession.query(Post).get(post_id)
+    if not post:
+        return "Post not found", 404
+
+    existing_like = dbsession.query(Like).filter_by(user_id=session['user_id'], post_id=post_id).first()
+    if existing_like:
+        return "You already liked this post", 400
+
+    new_like = Like(user_id=session['user_id'], post_id=post_id)
+    dbsession.add(new_like)
+    dbsession.commit()
+
+    post.likes += 1
+    dbsession.commit()
+
+@app.route('/unlike_post/<int:post_id>', methods=['POST'])
+def unlike_post(post_id):
+    if 'user_id' not in session:
+        flash('You must be logged in to unlike a post', 'error')
+        return redirect(url_for('login'))
+
+    post = dbsession.query(Post).get(post_id)
+    if not post:
+        return "Post not found", 404
+
+    db.session.delete(existing_like)
+    db.session.commit()
+
+    post.likes -= 1
+    db.session.commit()
 
 @app.route('/users')
 def users():
