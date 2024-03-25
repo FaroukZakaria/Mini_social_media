@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="static/posts.css">
-    <link rel="stylesheet" href="static/navbar.css">
+    <link rel="stylesheet" href="/static/posts.css">
+    <link rel="stylesheet" href="/static/navbar.css">
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -21,6 +21,14 @@
 	        <p>{{ post.content }}</p>
 	    </li>
 	{% endfor %}
+    </ul>
+    <h2> User likes:</h2>
+    <ul class="post-list">
+	{% for post in user.user_likes %}
+	    <li class="post-item">
+	        <p>{{ post.content }}</p>
+	    </li>
+        {% endfor %}
     </ul>
 </body>
 </html>
