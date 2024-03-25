@@ -11,6 +11,7 @@ from models import User, Base, Post
 import hashlib
 import secrets
 import string
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -20,6 +21,9 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 
 # Set the Flask application's secret key
 app.secret_key = secret_key
+
+# Define the default upload folder location
+app.config['UPLOAD_FOLDER'] = '/static/profile_pictures/'
 
 # Configure SQLAlchemy to connect to the database
 engine = create_engine('mysql://public:password@localhost/platform_data')
@@ -98,7 +102,8 @@ def signup():
                 firstname=firstname,
                 lastname=lastname,
                 email=email,
-                password=hashed_password
+                password=hashed_password,
+                picture="/static/default_profile_picture.jpg"
                 )
         # Adding new user to database
         dbsession.add(new_user)
@@ -164,8 +169,18 @@ def users():
     """
     All users page
     """
-    users = dbsession.query(User).all()
-    return render_template('users.html', users=users)
+    if request.method == 'POST':
+        query = request.form.get('query', '')
+        search_res = [
+                user for user in users if query.lower()
+                in user['firstname'].lower()
+                or query.lower()
+                in user['lastname'].lower()
+                ]
+        return render_template('users.html', users=search_res, query=query)
+    else:
+        users = dbsession.query(User).all()
+        return render_template('users.html', users=users)
 
 @app.route('/users/<int:user_id>')
 def user_profile(user_id):
@@ -199,6 +214,59 @@ def navbar():
     Navigation bar at top
     """
     return render_template('navbar.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'new_picture' not in request.files:
+        flash('No uploaded files', 'error')
+        return redirect(url_for('profile'))
+    new_picture = request.files['new_picture']
+
+    if new_picture.filename == '':
+        flash('No file selected', 'error')
+        return redirect(url_for('profile'))
+    filename = str(user_id) + '.jpg'
+    file_path = '/static/profile_pictures/' + filename
+    new_picture.save(file_path)
+
+    flash('Uploaded successfully', 'success')
+    return redirect(url_for('profile'))
+
+@app.route('/change_picture', methods=['POST'])
+def change_picture():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        if 'new_picture' in request.files:
+            new_picture = request.files['new_picture']
+            if new_picture.content_length > 1048576:  # Limit file size to 1MB
+                flash('File size is too large. Please upload a file under 1MB.', 'error')
+                return redirect(url_for('profile'))
+
+            pic = dbsession.query(User).get(user_id).picture
+            if pic != "/static/profile_pictures/default.jpg":
+                # Code here to change the existing record to something else in database
+                pass
+
+            filename = f"{user_id}.jpg"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            try:
+                new_picture.save(filepath)
+            except IOError as e:
+                flash('Error saving file: {}'.format(e), 'error')
+                return redirect(url_for('profile'))
+
+
+            user = dbsession.query(User).get(user_id)
+            user.picture = '/static/profile_pictures/' + filename
+            dbsession.commit()
+            flash('Profile picture updated successfully!', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('No file uploaded!', 'error')
+            return redirect(url_for('profile'))
+    else:
+        flash('You must be logged in to change your profile picture.', 'error')
+        return redirect(url_for('login'))
 
 # PLACEHOLDER FOR MORE ROUTES
 

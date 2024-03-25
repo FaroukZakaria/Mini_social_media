@@ -20,6 +20,7 @@ class User(Base):
     lastname = Column(String(60), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(120), nullable=False)
+    picture = Column(String(255), nullable=False)
     is_admin = False
     # Define the one-to-many relationship with Post
     user_posts = relationship('Post', back_populates='author')

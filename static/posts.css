@@ -16,3 +16,16 @@
     margin-bottom: 10px;
     color: #333333;
 }
+/* CSS styles for post containers */
+.post-container {
+    border: 10px solid #ccc; /* Border style */
+    padding: 10px; /* Padding for content */
+    margin-bottom: 10px; /* Margin between posts */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+/* Style for hover effect */
+.post-container:hover {
+    background-color: #ddd; /* Change background color on hover */
+}

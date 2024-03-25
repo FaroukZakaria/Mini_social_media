@@ -8,6 +8,12 @@
 <body>
     {% include 'navbar.html' %}
     <h1>Users</h1>
+
+    <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Search users...">
+	<button type="submit">Search</button>
+    </form>
+
     <ul>
         {% for user in users %}
         <li><a href="/users/{{ user.id }}">{{ user.firstname }} {{ user.lastname }}</a></li>
