@@ -241,15 +241,24 @@ def user_profile(user_id):
     """
     if 'user_id' in session:
         curr_user = session['user_id']
+    else:
+        curr_user = None
 
     user = dbsession.query(User).get(user_id)
     if user:
+        all_likes = dbsession.query(Like).all()
+        user_likes = {}
+        for like in all_likes:
+            if like.post_id not in user_likes:
+                user_likes[like.post_id] = set()
+            user_likes[like.post_id].add(like.user_id)
+
         if 'user_id' in session:
             curr_user = session['user_id']
             is_current_user = (user.id == curr_user)
         else:
             is_current_user = False
-        return render_template('profile.html', user=user, is_current_user=is_current_user)
+        return render_template('profile.html', user=user, is_current_user=is_current_user, curr_user=curr_user, user_likes=user_likes)
     else:
         return "User not found", 404
 
