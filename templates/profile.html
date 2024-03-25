@@ -18,7 +18,22 @@
     <ul class="post-list">
         {% for post in user.user_posts %}
 	    <li class="post-item">
-	        <p>{{ post.content }}</p>
+	        <a href="/posts/{{ post.id }}" class="post-link">
+		    <div class="post-content">
+	                <p>{{ post.content }}</p>
+		    </div>
+		</a>
+		<div class="like-buttons">
+		    {% if curr_user in user_likes[post.id] %}
+		        <form action="/unlike_post/{{ post.id }}" method="POST">
+			    <button type="submit" class="unlike-btn">Unlike</button>
+			</form>
+		    {% else %}
+		        <form action="/like_post/{{ post.id }}" method="POST">
+			    <button type="submit" class="like-btn">Like</button>
+			</form>
+		    {% endif %}
+		</div>
 	    </li>
 	{% endfor %}
     </ul>
@@ -26,7 +41,25 @@
     <ul class="post-list">
 	{% for like in user.user_likes %}
 	    <li class="post-item">
-	        <p>{{ like.post.content }}</p>
+	        <a href="/posts/{{ like.post.id }}" class="post-link">
+		    <div class="post-content">
+	                <p>{{ like.post.content }}</p>
+			<p class="author-info">
+			    <a href="/users/{{ like.post.author_id }}" class="author-link">Author: {{ like.post.author.firstname }} {{ like.post.author.lastname }}</a>
+			</p>
+		    </div>
+		</a>
+		<div class="like-buttons">
+		    {% if curr_user in user_likes[like.post.id] %}
+		        <form action="/unlike_post/{{ like.post.id }}" method="POST">
+			    <button type="submit" class="unlike-btn">Unlike</button>
+			</form>
+		    {% else %}
+		        <form action="/like_post/{{ like.post.id }}" method="POST">
+			    <button type="submit" class="like-btn">Like</button>
+			</form>
+		    {% endif %}
+		</div>
 	    </li>
         {% endfor %}
     </ul>
