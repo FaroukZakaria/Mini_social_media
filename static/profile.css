@@ -1,0 +1,33 @@
+/* Styles for the Change Name button */
+#change-name-btn {
+    background-color: #007bff; /* Blue color, you can change it */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+/* Styles for the Change Name form */
+#change-name-form {
+    display: none; /* Hide the form by default */
+}
+
+/* Styles for form inputs and buttons */
+#change-name-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#change-name-form input[type="text"],
+#change-name-form button[type="submit"] {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#change-name-form button[type="submit"] {
+    background-color: #28a745; /* Green color, you can change it */
+    color: #fff; /* Text color */
+    border: none;
+    cursor: pointer;
+}

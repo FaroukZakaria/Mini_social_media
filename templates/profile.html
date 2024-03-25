@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="static/navbar.css">
+	<link rel="stylesheet" href="static/profile.css">
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -12,6 +12,12 @@
     <div>
         <p><strong>Name:</strong> {{ user.firstname }} {{ user.lastname }}{% if is_current_user %} (Me){% endif %}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
+		<button id="change-name-btn">Change Name</button>
+        <form id="change-name-form" action="/change_name" method="post">
+            <label for="new_firstname">New First Name:</label>
+            <input type="text" id="new_firstname" name="new_firstname" required>
+            <button type="submit">Save</button>
+        </form>
     </div>
     <h2>User Posts:</h2>
     <ul>
@@ -19,5 +25,7 @@
 	    <li><a href="/posts/{{ post.id }}">{{ post.content }}</a></li>
 	{% endfor %}
     </ul>
+	
+	<script src="static/profile.js"></script>
 </body>
 </html>
