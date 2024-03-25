@@ -31,3 +31,7 @@
     border: none;
     cursor: pointer;
 }
+
+.flash-success {
+    color: green;
+}
