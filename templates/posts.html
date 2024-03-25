@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Posts</title>
-    <link rel="stylesheet" href="static/posts.css">
+    <link rel="stylesheet" href="/static/posts.css">
 </head>
 <body>
     <!-- Include the navigation bar -->
@@ -14,8 +14,17 @@
     <ul class="post-list">
         {% for post in posts %}
             <li class="post-item">
-                <p>{{ post.content }}</p>
-		<p>Author: {{ authors[post.id] }}</p>
+	        <div class="post-content">
+                    <p>{{ post.content }}</p>
+                    <p class="author-info">Author: {{ authors[post.id] }}</p>
+		</div>
+		<div class="like-buttons">
+		    {% if user_likes[post.id] %}
+		        <button class="unlike-btn">Unlike</button>
+		    {% else %}
+		        <button class="like-btn">Like</button>
+			{% endif %}
+		</div>
             </li>
         {% endfor %}
     </ul>
