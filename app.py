@@ -276,9 +276,19 @@ def change_name():
         new_firstname = request.form.get('new_firstname')
         user = dbsession.query(User).filter_by(id=user_id).first()
         if user:
+            all_likes = dbsession.query(Like).all()
+            user_likes = {}
+            for like in all_likes:
+                if like.post_id not in user_likes:
+                    user_likes[like.post_id] = set()
+                user_likes[like.post_id].add(like.user_id)
+
             user.firstname = new_firstname
+            session['user_firstname'] = new_firstname
             dbsession.commit()
-            return render_template('profile.html', user=user, is_current_user=True)
+
+            flash('Name changed successfully', 'success')
+            return render_template('profile.html', user=user, is_current_user=True, curr_user=user_id, user_likes=user_likes)
         else:
             return "User not found", 404
     else:
