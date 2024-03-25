@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://root:root@localhost/platform_data')
+engine = create_engine('mysql://public:password@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -250,11 +250,12 @@ def change_name():
         if user:
             user.firstname = new_firstname
             dbsession.commit()
-            return redirect('profile.html', user=user, is_current_user=True)
+            return render_template('profile.html', user=user, is_current_user=True)
         else:
             return "User not found", 404
     else:
-        return redirect(url_for('login'))  # Redirect to login page if not logged in
+        flash('You must be logged in to change your name', 'error')
+        return redirect(url_for('login'))
 
 
 @app.route('/navbar')
