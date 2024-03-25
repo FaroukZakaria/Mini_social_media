@@ -23,6 +23,8 @@ class User(Base):
     is_admin = False
     # Define the one-to-many relationship with Post
     user_posts = relationship('Post', back_populates='author')
+    user_likes = relationship('Like', back_populates='user')
+
 
     def __repr__(self):
         return "<User(id={}, first name={}, last name={}, email={})>".format(
@@ -39,6 +41,8 @@ class Post(Base):
      content = Column(String(60), nullable=False)
      author_id = Column(Integer, ForeignKey('users.id'), nullable=False)
      author = relationship("User", back_populates="user_posts")
+     likes = Column(Integer, default=0)
+     post_likes = relationship('Like', back_populates="post")
 
      def __repr__(self):
          return "<Post(id={}, content={}, author={})>".format(
@@ -46,3 +50,14 @@ class Post(Base):
                 self.content,
                 self.author
                 )
+
+
+class Like(Base):
+    __tablename__ = 'likes'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    post_id = Column(Integer, ForeignKey('posts.id'))
+
+    user = relationship("User", back_populates="user_likes")
+    post = relationship("Post", back_populates="post_likes")
