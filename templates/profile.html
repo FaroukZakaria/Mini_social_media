@@ -10,6 +10,20 @@
 </head>
 <body>
     {% include 'navbar.html' %}
+	{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <!-- Check if the message contains 'success' to apply the correct style -->
+                    {% if 'success' in message %}
+                        <li class="flash-success">{{ message }}</li>
+                    {% else %}
+                        <li>{{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <h1>User Profile</h1>
     <div>
         <p><strong>Name:</strong> {{ user.firstname }} {{ user.lastname }}{% if is_current_user %} (Me){% endif %}</p>
