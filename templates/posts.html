@@ -14,17 +14,25 @@
     <ul class="post-list">
         {% for post in posts %}
             <li class="post-item">
-	        <div class="post-content">
-                    <p>{{ post.content }}</p>
-                    <p class="author-info">Author: {{ authors[post.id] }}</p>
-		</div>
-		<div class="like-buttons">
-		    {% if user_likes[post.id] %}
-		        <button class="unlike-btn">Unlike</button>
-		    {% else %}
-		        <button class="like-btn">Like</button>
-			{% endif %}
-		</div>
+                <a href="/posts/{{ post.id }}" class="post-link">
+                        <div class="post-content">
+                            <p>{{ post.content }}</p>
+                            <p class="author-info">
+                            <a href="/users/{{ post.author_id }}" class="author-link">Author: {{ authors[post.id] }}</a>
+                            </p>
+                        </div>
+                </a>
+                <div class="like-buttons">
+                    {% if curr_user in user_likes[post.id] %}
+                        <form action="/unlike_post/{{ post.id }}" method="POST">
+                            <button type="submit" class="unlike-btn">Unlike</button>
+                        </form>
+                    {% else %}
+                        <form action="/like_post/{{ post.id }}" method="POST">
+                            <button type="submit" class="like-btn">Like</button>
+                        </form>
+                    {% endif %}
+                </div>
             </li>
         {% endfor %}
     </ul>
