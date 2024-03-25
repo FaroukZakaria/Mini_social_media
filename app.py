@@ -269,6 +269,23 @@ def about():
     """
     return render_template('about.html')
 
+@app.route('/change_name', methods=['POST'])
+def change_name():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        new_firstname = request.form.get('new_firstname')
+        user = dbsession.query(User).filter_by(id=user_id).first()
+        if user:
+            user.firstname = new_firstname
+            dbsession.commit()
+            return render_template('profile.html', user=user, is_current_user=True)
+        else:
+            return "User not found", 404
+    else:
+        flash('You must be logged in to change your name', 'error')
+        return redirect(url_for('login'))
+
+
 @app.route('/navbar')
 def navbar():
     """
