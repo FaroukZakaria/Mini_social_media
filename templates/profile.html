@@ -24,9 +24,9 @@
     </ul>
     <h2> User likes:</h2>
     <ul class="post-list">
-	{% for post in user.user_likes %}
+	{% for like in user.user_likes %}
 	    <li class="post-item">
-	        <p>{{ post.content }}</p>
+	        <p>{{ like.post.content }}</p>
 	    </li>
         {% endfor %}
     </ul>
