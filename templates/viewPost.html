@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post</title>
-    <link rel="stylesheet" href="static/viewPost.css">
+    <link rel="stylesheet" href="/static/viewPost.css">
+    <link rel="stylesheet" href="/static/posts.css">
 </head>
 <body>
     <!-- Include the navigation bar -->
@@ -13,6 +14,18 @@
     <div class="post-container">
         <p>{{ post.content }}</p>
 	<p>Author: <a href="/users/{{ author.id }}">{{ author.firstname }} {{ author.lastname }}</a></p>
+
+	{% if user %}
+	    {% if user.id in user_likes[post.id] %}
+	        <form action="/unlike_post/{{ post.id }}" method="POST">
+		    <button type="submit" class="unlike-btn">Unlike</button>
+		</form>
+	    {% else %}
+	        <form action="/like_post/{{ post.id }}" method="POST">
+		    <button type="submit" class="like-btn">Like</button>
+		</form>
+	    {% endif %}
+	{% endif %}
     </div>
 </body>
 </html>
