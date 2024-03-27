@@ -1,0 +1,28 @@
+/* Styles for the User list */
+.user-list {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+.user-list li {
+    margin-bottom: 20px;
+}
+
+/* Styles for User information */
+.user-info {
+    padding: 10px;
+    background-color: #f9f9f9; /* Light grey background */
+    border-radius: 5px;
+}
+
+.user-link {
+    text-decoration: none;
+    color: #333; /* Dark text color */
+    font-weight: bold;
+}
+
+.post-like-info {
+    margin-top: 5px;
+    color: #777; /* Lighter text color */
+    font-size: 14px;
+}
