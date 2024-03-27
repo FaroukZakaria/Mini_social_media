@@ -42,6 +42,7 @@
 .like-btn:hover, .unlike-btn:hover {
     background-color: #0056b3;
 }
+
 .author-link {
     color: blue; /* Set the color of the link */
     text-decoration: underline; /* Add underline to indicate it's a link */
