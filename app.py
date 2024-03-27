@@ -156,9 +156,10 @@ def add_post():
 
 @app.route('/posts')
 def show_posts():
-    
+    is_admin = False
     if 'user_id' in session:
         curr_user = session['user_id']
+        is_admin = session['is_admin']
     else:
         curr_user = None
     posts = dbsession.query(Post).all()
@@ -178,7 +179,7 @@ def show_posts():
 
         likes[post.id] = post.likes
 
-    return render_template('posts.html', posts=posts, curr_user=curr_user, authors=authors, likes=likes, user_likes=user_likes)
+    return render_template('posts.html', posts=posts, curr_user=curr_user, authors=authors, likes=likes, user_likes=user_likes, is_admin=is_admin)
 
 @app.route('/posts/<int:post_id>', strict_slashes=False)
 def view_post(post_id):
@@ -332,7 +333,49 @@ def navbar():
     """
     return render_template('navbar.html')
 
-# PLACEHOLDER FOR MORE ROUTES
+@app.route('/posts/<int:post_id>/edit', methods=['GET', 'POST'])
+def edit_post(post_id):
+    if 'user_id' in session:
+        post = dbsession.query(Post).get(post_id)
+        if post:
+            if post.author_id == session['user_id']:
+                if request.method == 'POST':
+                    new_content = request.form['content']
+                    post.content = new_content
+                    dbsession.commit()
+                    flash('Post updated successfully!', 'success')
+                    return redirect(url_for('index'))
+                else:
+                    return render_template('edit_post.html', post=post)
+            else:
+                flash('You are not authorized to edit this post.', 'error')
+                return redirect(url_for('index'))
+        else:
+            flash('Post not found.', 'error')
+            return redirect(url_for('index'))
+    else:
+        flash('You must be logged in to edit a post.', 'error')
+        return redirect(url_for('login'))
+
+@app.route('/delete_post/<int:post_id>')
+def delete_post(post_id):
+    if 'user_id' in session:
+        user_id = session['user_id']
+        post = dbsession.query(Post).get(post_id)
+        if post:
+            if post.author_id == user_id or session['is_admin'] == True:
+                dbsession.query(Like).filter_by(post_id=post.id).delete()
+                dbsession.delete(post)
+                dbsession.commit()
+                flash('Post deleted successfully!', 'success')
+            else:
+                flash('You are not authorized to delete this post.', 'error')
+        else:
+            return "Post not found", 404
+    else:
+        flash('You must be logged in to delete a post', 'error')
+        return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
