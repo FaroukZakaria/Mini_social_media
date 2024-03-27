@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
+    <link rel="stylesheet" href="/static/users.css">
+
 </head>
 <body>
     {% include 'navbar.html' %}
     <h1>Users</h1>
-    <ul>
+    <ul class="user-list">
         {% for user in users %}
-        <li><a href="/users/{{ user.id }}">{{ user.firstname }} {{ user.lastname }}</a></li>
+        <li>
+	    <div class="user-info">
+	        <a href="/users/{{ user.id }}">{{ user.firstname }} {{ user.lastname }}</a>
+		<p class="post-like-info">Posts: {{ user.user_posts | length }} | Likes: {{ user.user_likes | length }}</p>
+	    </div>
+	</li>
         {% endfor %}
     </ul>
 </body>
