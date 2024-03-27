@@ -219,12 +219,25 @@ def unlike_post(post_id):
         return "Post not found", 404
 
     existing_like = dbsession.query(Like).filter_by(user_id=session['user_id'], post_id=post_id).first()
-    dbsession.delete(existing_like)
-    dbsession.commit()
+    if existing_like:
+        dbsession.delete(existing_like)
+        dbsession.commit()
 
-    post.likes -= 1
-    dbsession.commit()
-    return '', 204
+        post.likes -= 1
+        dbsession.commit()
+        return '', 204
+    else:
+        return "You've already unliked", 400
+
+@app.route('/post_likes/<int:post_id>')
+def post_likes(post_id):
+    post = dbsession.query(Post).get(post_id)
+    if post:
+        likes = dbsession.query(Like).filter_by(post_id=post_id).all()
+        return render_template('post_likes.html', post_likes=likes)
+    else:
+        return "Post not found", 404
+
 
 @app.route('/users')
 def users():
