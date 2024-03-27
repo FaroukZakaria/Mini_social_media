@@ -40,7 +40,23 @@ def index():
     """
     Home
     """
-    return render_template('index.html')
+    if 'user_id' in session:
+        curr_user = session['user_id']
+    else:
+        curr_user = None
+
+    users = dbsession.query(User).all()
+    posts = dbsession.query(Post).all()
+
+    likes = {}
+    all_likes = dbsession.query(Like).all()
+    user_likes = {}  # Users who liked each post
+    for like in all_likes:
+        if like.post_id not in user_likes:
+            user_likes[like.post_id] = set()
+        user_likes[like.post_id].add(like.user_id)
+
+    return render_template('index.html', users=users, posts=posts, likes=likes, curr_user=curr_user, user_likes=user_likes)
 
 @app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
