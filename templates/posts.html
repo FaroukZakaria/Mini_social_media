@@ -20,6 +20,7 @@
                             <p class="author-info">
                             <a href="/users/{{ post.author_id }}" class="author-link">Author: {{ authors[post.id] }}</a>
                             </p>
+			    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a></p>
                         </div>
                 </a>
                 <div class="like-buttons">
