@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://root:root@localhost/platform_data')
+engine = create_engine('mysql://public:password@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -304,14 +304,11 @@ def navbar():
     """
     return render_template('navbar.html')
 
-from models import Post
-
 @app.route('/posts/<int:post_id>/edit', methods=['GET', 'POST'])
 def edit_post(post_id):
     if 'user_id' in session:
         post = dbsession.query(Post).get(post_id)
         if post:
-            # Check if the user is authorized to edit the post (e.g., they are the author)
             if post.author_id == session['user_id']:
                 if request.method == 'POST':
                     new_content = request.form['content']
@@ -331,14 +328,13 @@ def edit_post(post_id):
         flash('You must be logged in to edit a post.', 'error')
         return redirect(url_for('login'))
 
-
 @app.route('/delete_post/<int:post_id>')
 def delete_post(post_id):
     if 'user_id' in session:
         user_id = session['user_id']
         post = dbsession.query(Post).get(post_id)
         if post:
-            if post.author_id == user_id or session['is_admin'] == True:# Delete all likes related to this post
+            if post.author_id == user_id or session['is_admin'] == True:
                 dbsession.query(Like).filter_by(post_id=post.id).delete()
                 dbsession.delete(post)
                 dbsession.commit()
@@ -348,9 +344,9 @@ def delete_post(post_id):
         else:
             return "Post not found", 404
     else:
-        return redirect(url_for('login'))  # Redirect to login page if not logged in
+        flash('You must be logged in to delete a post', 'error')
+        return redirect(url_for('login'))
     return redirect(url_for('index'))
-
 
 
 if __name__ == "__main__":
