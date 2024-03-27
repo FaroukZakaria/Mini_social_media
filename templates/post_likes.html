@@ -11,12 +11,12 @@
     {% include 'navbar.html' %}
 
     <h1>Users who Liked this Post</h1>
-    <ul class="user-list">
-        {% for like in post_likes %}
-            <li class="user-item">
-                <a href="/users/{{ like.user_id }}" class="user-link">{{ like.user.firstname }} {{ like.user.lastname }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    {% for like in post_likes %}
+     	    <div class="user-info">
+	        <a href="/users/{{ like.user.id }}">{{ like.user.firstname }} {{ like.user.lastname }}</a>
+        	<p class="post-like-info">Posts: {{ like.user.user_posts | length }} | Likes: {{ like.user.user_likes | length }}</p>
+	    </div>
+	</ul>
+    {% endfor %}
 </body>
-</html>
+<html>
