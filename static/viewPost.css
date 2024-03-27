@@ -1,11 +1,55 @@
 /* Styles for the specific post page */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
 .post-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 50 auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .post-container p {
     margin-bottom: 20px;
     line-height: 1.6;
+}
+
+.post-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.post-container a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.like-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.like-btn:hover {
+    background-color: #218838;
+}
+
+button.unlike-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button.unlike-btn:hover {
+    background-color: #c82333;
 }
