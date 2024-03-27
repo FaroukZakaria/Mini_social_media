@@ -17,11 +17,12 @@
                 <a href="/posts/{{ post.id }}" class="post-link">
                         <div class="post-content">
                             <p>{{ post.content }}</p>
+			</div>
+		</a>
                             <p class="author-info">
-                            <a href="/users/{{ post.author_id }}" class="author-link">Author: {{ authors[post.id] }}</a>
+                                Author: <a href="/users/{{ post.author_id }}" class="author-link">{{ authors[post.id] }}</a>
                             </p>
 			    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a></p>
-                        </div>
                 </a>
                 <div class="like-buttons">
                     {% if curr_user in user_likes[post.id] %}
