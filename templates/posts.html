@@ -23,7 +23,6 @@
                                 Author: <a href="/users/{{ post.author_id }}" class="author-link">{{ authors[post.id] }}</a>
                             </p>
 			    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a></p>
-                </a>
                 <div class="like-buttons">
                     {% if curr_user in user_likes[post.id] %}
                         <form action="/unlike_post/{{ post.id }}" method="POST">
@@ -35,7 +34,7 @@
                         </form>
                     {% endif %}
                 </div>
-				{% if post.author_id == curr_user or is_admin %}
+		{% if post.author_id == curr_user or is_admin %}
                     <div class="edit-delete-buttons">
                         <a href="/posts/{{ post.id }}/edit" class="edit-btn">Edit</a>
                         <a href="/delete_post/{{ post.id }}" class="delete-btn">Delete</a>

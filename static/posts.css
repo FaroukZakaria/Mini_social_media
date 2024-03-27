@@ -19,14 +19,17 @@
     color: blue;
 }
 
+.post-link:hover {
+    text-decoration: none;
+    color: purple;
+}
+
 .post-item a {
     text-decoration: none;
-    color: blue;
 }
 
 .post-item a:hover {
     text-decoration: none;
-    color: purple;
 }
 
 .post-item p {
@@ -44,9 +47,19 @@
     color: blue;
 }
 
+.post-content:hover {
+    text-decoration: none;
+    color: purple;
+}
+
 .post-content p {
     text-decoration: none;
     color: blue;
+}
+
+.post-content p:hover {
+    text-decoration: none;
+    color: purple;
 }
 
 .author-info {
@@ -88,6 +101,7 @@
 
 .edit-delete-buttons {
     margin-top: 10px;
+    text-decoration: none;
 }
 
 .edit-btn, .delete-btn {
