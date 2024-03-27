@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="/static/profile.css">
-    <link rel="stylesheet" href="/static/posts.css">
-    <link rel="stylesheet" href="/static/navbar.css">
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -42,11 +40,13 @@
     <ul class="post-list">
         {% for post in user.user_posts %}
 	    <li class="post-item">
-	        <a href="/posts/{{ post.id }}" class="post-link">
-		    <div class="post-content">
+	        <a href="/posts/{{ post.id }}">
+		    <div class="post-item-div">
 	                <p>{{ post.content }}</p>
 		    </div>
 		</a>
+		<p class="author-info">
+		    Author: <a href="/users/{{ post.author_id }}" class="author-link">{{ post.author.firstname }} {{ post.author.lastname }}</a>
 		<div class="like-buttons">
 		    {% if curr_user in user_likes[post.id] %}
 		        <form action="/unlike_post/{{ post.id }}" method="POST">
@@ -58,6 +58,7 @@
 			</form>
 		    {% endif %}
 		</div>
+		<br>
 		Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
 	    </li>
 	{% endfor %}
@@ -72,8 +73,10 @@
 	        <a href="/posts/{{ like.post.id }}" class="post-link">
 		    <div class="post-content">
 	                <p>{{ like.post.content }}</p>
+		    </div>
+		</a>
 			<p class="author-info">
-			    <a href="/users/{{ like.post.author_id }}" class="author-link">Author: {{ like.post.author.firstname }} {{ like.post.author.lastname }}</a>
+			    Author: <a href="/users/{{ like.post.author_id }}" class="author-link">{{ like.post.author.firstname }} {{ like.post.author.lastname }}</a>
 			</p>
 		    </div>
 		</a>
@@ -88,6 +91,7 @@
 			</form>
 		    {% endif %}
 		</div>
+		<br>
 		Likes: <a href="/post_likes/{{ like.post.id }}">{{ like.post.likes }}</a>
 	    </li>
         {% endfor %}
