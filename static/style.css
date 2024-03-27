@@ -7,6 +7,7 @@ body {
 /* Styles for the "Add Post" button */
 .add-post-btn {
     display: inline-block;
+    margin: 0 auto;
     padding: 10px 20px;
     background-color: #007bff;
     color: #ffffff;
@@ -19,3 +20,114 @@ body {
     background-color: #0056b3;
 }
 
+.post-container {
+    position: relative;
+    width: 50%;
+    margin: 0 auto 50px;
+    padding: 20px;
+    padding-bottom: 69px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* Styles for the Home page */
+.post-list {
+    list-style-type: none;
+    padding: 0;
+    text-decoration: none;
+}
+
+.post-item {
+    margin-bottom: 30px;
+    text-decoration: none;
+}
+
+.post-item a {
+    text-decoration: none;
+    color: #0767ff;
+}
+
+.post-item a:hover {
+    color: #6f00ff;
+}
+
+.post-content {
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #0767ff;
+}
+
+.post-content a {
+    text-decoration: none;
+    color: #0767ff;
+}
+
+.post-content:hover {
+    color: #6f00ff;
+}
+
+.post-link {
+    color: #0767ff;
+    text-decoration: none;
+}
+
+
+.post-link:hover {
+    color: #6f00ff; /* Change color on hover */
+    text-decoration: none;
+}
+
+.feedback {
+    position: absolute;
+    display: flex;
+    bottom: 10px;
+    left: 0;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+.likes, .comments {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.likes {
+    bottom: 10px;
+}
+
+.comments {
+    bottom: 10px;
+}
+
+.like-link, .comment-link {
+    text-decoration: none; /* Remove underline from link */
+    cursor: pointer; /* Change cursor to pointer on hover to indicate it's clickable */
+}
+
+.like-link:hover, .comment-link:hover {
+    text-decoration: none; /* Add underline on hover */
+    color: purple;
+}
+
+/* Styles for like and unlike buttons */
+.like-btn, .unlike-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.like-btn {
+    background-color: #28a745; /* Green color for like button */
+    color: #fff;
+}
+
+.unlike-btn {
+    background-color: #dc3545; /* Red color for unlike button */
+    color: #fff;
+}
+
+.likes-number {
+    text-decoration: none;
+    color: inherit;
+}

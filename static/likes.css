@@ -1,19 +1,20 @@
-/* Styles for the post_likes page */
-.user-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.user-item {
-    margin-bottom: 10px;
-}
-
 .user-link {
-    color: blue; /* Set the color of the link */
-    text-decoration: underline; /* Add underline to indicate it's a link */
-    cursor: pointer; /* Change cursor to pointer on hover to indicate it's clickable */
+    text-decoration: none;
+    color: #333; /* Dark text color */
+    font-weight: bold;
+}
+.user-info {
+    padding: 10px;
+    background-color: #f9f9f9; /* Light grey background */
+    border-radius: 5px;
 }
 
-.user-link:hover {
-    color: darkblue; /* Change color on hover */
+.user-info a {
+    text-decoration: none;
+    color: blue;
+
+}
+
+.user-info a:hover {
+    color: purple;
 }

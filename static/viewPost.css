@@ -25,7 +25,8 @@ body {
 }
 
 .post-container a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: purple;
 }
 
 button {

@@ -38,3 +38,77 @@
 .flash-success {
     color: green;
 }
+
+.post-item-div {
+    color: blue; /* Set the default color to blue */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.post-item-div:hover {
+    color: purple; /* Change color to purple on hover */
+}
+.post-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.post-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-item a {
+    color: blue;
+    text-decoration: none;
+}
+
+.post-item a:hover {
+    text-decoration: none;
+    color: purple;
+}
+
+.post-content {
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.post-content a {
+    text-decoration: none;
+}
+
+.author-info {
+    font-style: italic;
+    color: #000;
+}
+.like-btn {
+    background-color: #28a745; /* Green color for like button */
+    color: #fff;
+}
+
+.unlike-btn {
+    background-color: #dc3545; /* Red color for unlike button */
+    color: #fff;
+}
+.like-btn, .unlike-btn {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.author-link {
+    color: blue; /* Set the color of the link */
+    text-decoration: none;
+    cursor: pointer; /* Change cursor to pointer on hover to indicate it's clickable */
+}
+
+.author-link:hover {
+    color: purple; /* Change color on hover */
+}
+.author-label {
+    color: black;
+}
