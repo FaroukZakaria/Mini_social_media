@@ -6,6 +6,7 @@
     padding: 10px 20px;
     margin-bottom: 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 /* Styles for the Change Name form */
@@ -16,20 +17,22 @@
 /* Styles for form inputs and buttons */
 #change-name-form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #change-name-form input[type="text"],
 #change-name-form button[type="submit"] {
     margin-bottom: 10px;
-    padding: 5px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
 }
 
 #change-name-form button[type="submit"] {
     background-color: #28a745; /* Green color, you can change it */
-    color: #fff; /* Text color */
-    border: none;
-    cursor: pointer;
 }
 
 .flash-success {
