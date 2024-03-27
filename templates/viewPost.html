@@ -15,7 +15,6 @@
         <p>{{ post.content }}</p>
 	<p>Author: <a href="/users/{{ author.id }}">{{ author.firstname }} {{ author.lastname }}</a></p>
 
-	{% if user %}
 	    {% if user.id in user_likes[post.id] %}
 	        <form action="/unlike_post/{{ post.id }}" method="POST">
 		    <button type="submit" class="unlike-btn">Unlike</button>
@@ -25,7 +24,7 @@
 		    <button type="submit" class="like-btn">Like</button>
 		</form>
 	    {% endif %}
-	{% endif %}
+	    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
     </div>
 </body>
 </html>
