@@ -1,0 +1,19 @@
+/* Styles for the post_likes page */
+.user-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-item {
+    margin-bottom: 10px;
+}
+
+.user-link {
+    color: blue; /* Set the color of the link */
+    text-decoration: underline; /* Add underline to indicate it's a link */
+    cursor: pointer; /* Change cursor to pointer on hover to indicate it's clickable */
+}
+
+.user-link:hover {
+    color: darkblue; /* Change color on hover */
+}
