@@ -58,6 +58,12 @@
 		</div>
 		<br>
 		Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
+    {% if post.author_id == curr_user or is_admin %}
+                    <div class="edit-delete-buttons">
+                        <a href="/posts/{{ post.id }}/edit" class="edit-btn">Edit</a>
+                        <a href="/delete_post/{{ post.id }}" class="delete-btn">Delete</a>
+                    </div>
+                {% endif %}
 	    </li>
 	{% endfor %}
     </ul>
