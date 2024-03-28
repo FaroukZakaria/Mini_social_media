@@ -9,7 +9,7 @@
 </head>
 <body>
     <!-- Include the navigation bar -->
-    {% include 'navbar.html' %}
+    {% include 'navbar.html' %} 
 
     <div class="post-container">
         <p>{{ post.content }}</p>
@@ -25,6 +25,28 @@
 		</form>
 	    {% endif %}
 	    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
+    </div>
+    <div class="commentss">
+        {% for comment in comments %}
+	<div class="comment-item">
+	    <p>{{ comment.content }}</p>
+	    <hr>
+	    <p>Author: <a href="/users/{{ comment.author_id }}">{{ comment.author.firstname }} {{ comment.author.lastname }}</a></p>
+	    <div class="comment-like">
+	        {% if user.id in user_comment_likes[comment.id] %}
+		    <form action="/comment/unlike/{{ comment.id }}" method="POST">
+		        <button type="submit" class="unlike-btn">Unlike</button>
+			Likes: <a href="/comments/{{ comment.id }}/likes">{{ comment.likes }}</a>
+		    </form>
+		{% else %}
+		    <form action="/comment/like/{{ comment.id }}" method="POST">
+			<button type="submit" class="like-btn">Like</button>
+			Likes: <a href="/comments/{{ comment.id }}/likes">{{ comment.likes }}</a>
+		    </form>
+		{% endif %}
+	    </div>
+	</div>
+	{% endfor %}
     </div>
 </body>
 </html>
