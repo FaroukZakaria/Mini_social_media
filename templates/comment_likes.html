@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Likes</title>
+    <link rel="stylesheet" href="/static/likes.css">
+</head>
+<body>
+	{% include 'navbar.html' %}
+    <div class="likes-list">
+        <h2>Users who liked this comment:</h2>
+            {% for like in likes %}
+                <div class="user-info">
+                    <a href="/users/{{ like.user_id }}" class="user-link">{{ like.user.firstname }} {{ like.user.lastname }}</a>
+		    <p class="post-like-info">Posts: {{ like.user.user_posts | length }} | Likes: {{ like.user.user_likes | length }} | Comments: {{ like.user.user_comments | length }}</p>
+                </div>
+            {% endfor %}
+    </div>
+</body>
+</html>

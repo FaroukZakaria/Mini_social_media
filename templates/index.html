@@ -42,40 +42,49 @@
         <ul class="post-list">
 	        <li class="post-item">
 		        <a href="/posts/{{ post.id }}" class="post-link">
-					<div class="post-content">
-						{{ post.content }}
-					</div>
-				</a>
-				<br>
-				<hr>
-				Author: <a href="/users/{{ post.author_id }}">{{ post.author.firstname }} {{ post.author.lastname }}</a>
-				<div class="feedback">
-					<div class="likes">
-						{% if curr_user in user_likes[post.id] %}
-							<form action="/unlike_post/{{ post.id }}" method="POST">
-								<button type="submit" class="unlike-btn">Unlike</button>
-						</form>
-						{% else %}
-						<form action="/like_post/{{ post.id }}" method="POST">
-									<button type="submit" class="like-btn">Like</button>
-						</form>
-						{% endif %}
-					<br>
-					Likes: <a href="/post_likes/{{ post.id }}" class="like-link">{{ post.likes }}</a>
-					</div>
-					<div class="comments">
-						<a href="/comments/{{ post.id }}" class="comment-link">Comment</a>
-					</div>
+			    <div class="post-content">
+			        {{ post.content }}
+			    </div>
+			</a>
+			<br>
+			<hr>
+			Author: <a href="/users/{{ post.author_id }}">{{ post.author.firstname }} {{ post.author.lastname }}</a>
+			<div class="feedback">
+			    <div class="like-comment">
+			        {% if curr_user in user_likes[post.id] %}
+			            <form action="/unlike_post/{{ post.id }}" method="POST">
+			                <button type="submit" class="unlike-btn">Unlike</button>
+				    </form>
+			        {% else %}
+				    <form action="/like_post/{{ post.id }}" method="POST">
+		                        <button type="submit" class="like-btn">Like</button>
+				    </form>
+			        {% endif %}
+			    </div>
+				<button class="comment-toggle-btn">Comment</button>
+				<div class="comment-form" style="display: none;">
+				    <form action="/comment/{{ post.id }}" method="POST">
+				        <input type="text" name="comment" placeholder="Add a comment">
+					<button type="submit" class="send-btn">
+					    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+					        <line x1="22" y1="2" x2="11" y2="13"></line>
+						<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+					    </svg>
+					</button>
+				    </form>
 				</div>
-				{% if post.author_id == curr_user or is_admin %}
+			</div>
+      {% if post.author_id == curr_user or is_admin %}
                     <div class="edit-delete-buttons">
                         <a href="/posts/{{ post.id }}/edit" class="edit-btn">Edit</a>
                         <a href="/delete_post/{{ post.id }}" class="delete-btn">Delete</a>
                     </div>
                 {% endif %}
-			</li>
+		</li>
 	</ul>
+        Likes: <a href="/post_likes/{{ post.id }}" class="like-link">{{ post.likes }}</a> || {{ post.post_comments | length }} Comments
     </div>
     {% endfor %}
+    <script src="/static/comment.js"></script>
 </body>
 </html>

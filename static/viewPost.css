@@ -54,3 +54,39 @@ button.unlike-btn {
 button.unlike-btn:hover {
     background-color: #c82333;
 }
+
+.commentss {
+    margin-top: 20px; /* Adjust margin as needed */
+    margin-left: 100px;
+}
+
+.comment-item {
+    margin-bottom: 10px; /* Add gap between comments */
+    padding: 10px;
+    border: 2px solid blue;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+.comment-item p {
+    margin: 0; /* Remove default paragraph margins */
+}
+
+.comment-item hr {
+    margin: 10px 0; /* Add space above and below the <hr> */
+    border: none;
+    border-top: 1px solid #ccc; /* Style the horizontal line */
+}
+
+.comment-item p a {
+    color: #0767ff; /* Style the author link */
+    text-decoration: none;
+}
+
+.comment-item p a:hover {
+    color: #6f00ff; /* Change color on hover */
+}
+
+.comment-like {
+    margin-top: 10px;
+}

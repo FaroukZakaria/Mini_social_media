@@ -39,35 +39,33 @@
     <h2>User Posts:</h2>
     <ul class="post-list">
         {% for post in user.user_posts %}
-			<li class="post-item">
-				<a href="/posts/{{ post.id }}">
-					<div class="post-item-div">
-							<p>{{ post.content }}</p>
-					</div>
-				</a>
-				<p class="author-info">
-					Author: <a href="/users/{{ post.author_id }}" class="author-link">{{ post.author.firstname }} {{ post.author.lastname }}</a>
-				<div class="like-buttons">
-					{% if curr_user in user_likes[post.id] %}
-						<form action="/unlike_post/{{ post.id }}" method="POST">
-						<button type="submit" class="unlike-btn">Unlike</button>
-					</form>
-					{% else %}
-						<form action="/like_post/{{ post.id }}" method="POST">
-						<button type="submit" class="like-btn">Like</button>
-					</form>
-					{% endif %}
-				</div>
-				<br>
-				Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
-				{% if post.author_id == curr_user or is_admin %}
+	    <li class="post-item">
+	        <a href="/posts/{{ post.id }}">
+		    <div class="post-item-div">
+	                <p>{{ post.content }}</p>
+		    </div>
+		</a>
+		<div class="like-buttons">
+		    {% if curr_user in user_likes[post.id] %}
+		        <form action="/unlike_post/{{ post.id }}" method="POST">
+			    <button type="submit" class="unlike-btn">Unlike</button>
+			</form>
+		    {% else %}
+		        <form action="/like_post/{{ post.id }}" method="POST">
+			    <button type="submit" class="like-btn">Like</button>
+			</form>
+		    {% endif %}
+		</div>
+		<br>
+		Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
+    {% if post.author_id == curr_user or is_admin %}
                     <div class="edit-delete-buttons">
                         <a href="/posts/{{ post.id }}/edit" class="edit-btn">Edit</a>
                         <a href="/delete_post/{{ post.id }}" class="delete-btn">Delete</a>
                     </div>
                 {% endif %}
-			</li>
-		{% endfor %}
+	    </li>
+	{% endfor %}
     </ul>
 
     <script src="/static/profile.js"></script>
