@@ -170,6 +170,11 @@ body {
     text-decoration: none;
 }
 
+.edit-delete-buttons a {
+    color: white;
+    text-decoration: none;
+}
+
 .edit-btn, .delete-btn {
     background-color: #dc3545;
     color: #fff;
