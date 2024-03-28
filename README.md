@@ -6,7 +6,9 @@
 - Python
 - Flask 3.0.0
 - Werkzeug 3.0.1
-- MySQL 8.0.36-0ubuntu0.20.04.1 for Linux on x86_64 (Ubuntu)
+- MySQL
+#### Note:
+Change sql credentials in app.py if you want to try the app yourself
 
 ### Installation:
 #### For PC:
