@@ -45,8 +45,6 @@
 	                <p>{{ post.content }}</p>
 		    </div>
 		</a>
-		<p class="author-info">
-		    Author: <a href="/users/{{ post.author_id }}" class="author-link">{{ post.author.firstname }} {{ post.author.lastname }}</a>
 		<div class="like-buttons">
 		    {% if curr_user in user_likes[post.id] %}
 		        <form action="/unlike_post/{{ post.id }}" method="POST">

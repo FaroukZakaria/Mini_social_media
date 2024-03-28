@@ -15,7 +15,7 @@
         <li>
 	    <div class="user-info">
 	        <a href="/users/{{ user.id }}">{{ user.firstname }} {{ user.lastname }}</a>
-		<p class="post-like-info">Posts: {{ user.user_posts | length }} | Likes: {{ user.user_likes | length }}</p>
+		<p class="post-like-info">Posts: {{ user.user_posts | length }} | Likes: {{ user.user_likes | length }} | Comments: {{ user.user_comments | length }}</p>
 	    </div>
 	</li>
         {% endfor %}
