@@ -199,7 +199,16 @@ def view_post(post_id):
                 user_likes[like.post_id] = set()
             user_likes[like.post_id].add(like.user_id)
 
-        return render_template('viewPost.html', post=post, author=author, user=user, user_likes=user_likes)
+        comments = dbsession.query(Comment).filter_by(post_id=post.id).all()
+
+        all_comment_likes = dbsession.query(CommentLike).all()
+        user_comment_likes = {}
+        for like in all_comment_likes:
+            if like.comment_id not in user_comment_likes:
+                user_comment_likes[like.comment_id] = set()
+            user_comment_likes[like.comment_id].add(like.user_id)
+
+        return render_template('viewPost.html', post=post, author=author, user=user, user_likes=user_likes, comments=comments, user_comment_likes=user_comment_likes)
     else:
         return "Post not found", 404
 
@@ -376,6 +385,92 @@ def delete_post(post_id):
         flash('You must be logged in to delete a post', 'error')
         return redirect(url_for('login'))
     return redirect(url_for('index'))
+
+@app.route('/comment/<int:post_id>', methods=['POST'])
+def comment(post_id):
+    if 'user_id' in session:
+        post = dbsession.query(Post).get(post_id)
+        if not post:
+            flash('Post not found', 'error')
+            return redirect(url_for('index'))
+
+        user_id = session['user_id']
+        content = request.form.get('comment')
+        curr_user = dbsession.query(User).get(user_id)
+
+        new_comment = Comment(content=content, author_id=curr_user.id, post_id=post_id)
+
+        dbsession.add(new_comment)
+        dbsession.commit()
+
+        flash('Comment added successfully', 'success')
+        return redirect(url_for('index'))
+    else:
+        flash('You must be logged in to add a comment', 'error')
+        return redirect(url_for('login'))
+
+@app.route('/comment/like/<int:comment_id>', methods=['POST'])
+def comment_like(comment_id):
+    if 'user_id' in session:
+        comment = dbsession.query(Comment).get(comment_id)
+        if not comment:
+            flash('Comment not found', 'error')
+            return redirect(url_for('index'))
+
+        curr_user = session['user_id']
+        existing_like = dbsession.query(CommentLike).filter_by(user_id=curr_user, comment_id=comment_id).first()
+
+        if existing_like:
+            return "You've already liked this comment", 400
+
+        new_like = CommentLike(user_id=curr_user, comment_id=comment_id, post_id=comment.post_id)
+
+        dbsession.add(new_like)
+        dbsession.commit()
+
+        comment.likes += 1
+        dbsession.commit()
+
+        return '', 204
+    else:
+        flash('You must be logged in to like this comment', 'error')
+        return redirect(url_for('login'))
+
+@app.route('/comment/unlike/<int:comment_id>', methods=['POST'])
+def comment_unlike(comment_id):
+    if 'user_id' in session:
+        comment = dbsession.query(Comment).get(comment_id)
+        if not comment:
+            flash('Comment not found', 'error')
+            return redirect(url_for('index'))
+
+        curr_user = session['user_id']
+        existing_like = dbsession.query(CommentLike).filter_by(user_id=curr_user, comment_id=comment_id).first()
+
+        if existing_like:
+            dbsession.delete(existing_like)
+            dbsession.commit()
+
+            comment.likes -= 1
+            dbsession.commit()
+
+            return '', 204
+        else:
+            return "Comment isn't liked to unlike", 400
+    else:
+        flash('You must be logged in to unlike a comment', 'error')
+        return redirect(url_for('login'))
+
+@app.route('/comments/<int:comment_id>/likes')
+def show_comment_likes(comment_id):
+    comment = dbsession.query(Comment).get(comment_id)
+    if not comment:
+        flash('Comment does not exist', 'error')
+        return redirect(url_for('index'))
+
+    likes = comment.comment_likes
+
+    return render_template('comment_likes.html', comment=comment, likes=likes)
 
 
 if __name__ == "__main__":
