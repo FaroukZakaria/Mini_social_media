@@ -13,6 +13,7 @@
 
     <div class="post-container">
         <p>{{ post.content }}</p>
+	<hr>
 	<p>Author: <a href="/users/{{ author.id }}">{{ author.firstname }} {{ author.lastname }}</a></p>
 
 	    {% if user.id in user_likes[post.id] %}
@@ -24,6 +25,19 @@
 		    <button type="submit" class="like-btn">Like</button>
 		</form>
 	    {% endif %}
+	    <button class="comment-toggle-btn">Comment</button>
+	    <div class="comment-form" style="display: none;">
+	        <form action="/comment/{{ post.id }}" method="POST">
+	            <input type="text" name="comment" placeholder="Add a comment">
+	            <button type="submit" class="send-btn">
+	                <!-- Blue send button with arrow icon -->
+	                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
+	                    <line x1="22" y1="2" x2="11" y2="13"></line>
+	                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+	                </svg>
+	            </button>
+	        </form>
+	    </div>
 	    <p>Likes: <a href="/post_likes/{{ post.id }}">{{ post.likes }}</a>
     </div>
     <div class="commentss">
