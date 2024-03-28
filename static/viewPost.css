@@ -91,10 +91,34 @@ button.unlike-btn:hover {
     margin-top: 10px;
 }
 
-.comment-toggle-btn {
-    margin-left: 10px;
-    margin-right: 10px;
+.like-btn, .unlike-btn {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.comment-toggle-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.send-btn {
+    padding: 8px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.send-btn svg {
+    vertical-align: middle;
 }
