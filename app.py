@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://public:password@localhost/platform_data')
+engine = create_engine('mysql://root:root@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
@@ -40,8 +40,10 @@ def index():
     """
     Home
     """
+    is_admin = False
     if 'user_id' in session:
         curr_user = session['user_id']
+        is_admin = session['is_admin']
     else:
         curr_user = None
 
@@ -56,7 +58,7 @@ def index():
             user_likes[like.post_id] = set()
         user_likes[like.post_id].add(like.user_id)
 
-    return render_template('index.html', users=users, posts=posts, likes=likes, curr_user=curr_user, user_likes=user_likes)
+    return render_template('index.html', users=users, posts=posts, likes=likes, curr_user=curr_user, user_likes=user_likes, is_admin=is_admin)
 
 @app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
@@ -269,8 +271,10 @@ def user_profile(user_id):
     """
     Show user profile
     """
+    is_admin = False
     if 'user_id' in session:
         curr_user = session['user_id']
+        is_admin = session['is_admin']
     else:
         curr_user = None
 
@@ -288,7 +292,7 @@ def user_profile(user_id):
             is_current_user = (user.id == curr_user)
         else:
             is_current_user = False
-        return render_template('profile.html', user=user, is_current_user=is_current_user, curr_user=curr_user, user_likes=user_likes)
+        return render_template('profile.html', user=user, is_current_user=is_current_user, curr_user=curr_user, user_likes=user_likes, is_admin=is_admin)
     else:
         return "User not found", 404
 

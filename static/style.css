@@ -131,3 +131,21 @@ body {
     text-decoration: none;
     color: inherit;
 }
+
+.edit-delete-buttons {
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.edit-btn, .delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    background-color: #c82333;
+}

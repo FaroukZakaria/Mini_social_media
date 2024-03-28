@@ -42,32 +42,38 @@
         <ul class="post-list">
 	        <li class="post-item">
 		        <a href="/posts/{{ post.id }}" class="post-link">
-			    <div class="post-content">
-			        {{ post.content }}
-			    </div>
-			</a>
-			<br>
-			<hr>
-			Author: <a href="/users/{{ post.author_id }}">{{ post.author.firstname }} {{ post.author.lastname }}</a>
-			<div class="feedback">
-			    <div class="likes">
-			        {% if curr_user in user_likes[post.id] %}
-			            <form action="/unlike_post/{{ post.id }}" method="POST">
-			                <button type="submit" class="unlike-btn">Unlike</button>
-				    </form>
-			        {% else %}
-				    <form action="/like_post/{{ post.id }}" method="POST">
-		                        <button type="submit" class="like-btn">Like</button>
-				    </form>
-			        {% endif %}
+					<div class="post-content">
+						{{ post.content }}
+					</div>
+				</a>
 				<br>
-				Likes: <a href="/post_likes/{{ post.id }}" class="like-link">{{ post.likes }}</a>
-			    </div>
-			    <div class="comments">
-			        <a href="/comments/{{ post.id }}" class="comment-link">Comment</a>
-			    </div>
-			</div>
-		</li>
+				<hr>
+				Author: <a href="/users/{{ post.author_id }}">{{ post.author.firstname }} {{ post.author.lastname }}</a>
+				<div class="feedback">
+					<div class="likes">
+						{% if curr_user in user_likes[post.id] %}
+							<form action="/unlike_post/{{ post.id }}" method="POST">
+								<button type="submit" class="unlike-btn">Unlike</button>
+						</form>
+						{% else %}
+						<form action="/like_post/{{ post.id }}" method="POST">
+									<button type="submit" class="like-btn">Like</button>
+						</form>
+						{% endif %}
+					<br>
+					Likes: <a href="/post_likes/{{ post.id }}" class="like-link">{{ post.likes }}</a>
+					</div>
+					<div class="comments">
+						<a href="/comments/{{ post.id }}" class="comment-link">Comment</a>
+					</div>
+				</div>
+				{% if post.author_id == curr_user or is_admin %}
+                    <div class="edit-delete-buttons">
+                        <a href="/posts/{{ post.id }}/edit" class="edit-btn">Edit</a>
+                        <a href="/delete_post/{{ post.id }}" class="delete-btn">Delete</a>
+                    </div>
+                {% endif %}
+			</li>
 	</ul>
     </div>
     {% endfor %}
