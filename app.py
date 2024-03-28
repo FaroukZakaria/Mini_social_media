@@ -22,7 +22,7 @@ secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits + strin
 app.secret_key = secret_key
 
 # Configure SQLAlchemy to connect to the database
-engine = create_engine('mysql://root:root@localhost/platform_data')
+engine = create_engine('mysql://public:password@localhost/platform_data')
 
 # Create the tables in the database
 Base.metadata.create_all(engine)
