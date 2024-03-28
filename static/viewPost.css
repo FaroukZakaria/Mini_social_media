@@ -90,3 +90,11 @@ button.unlike-btn:hover {
 .comment-like {
     margin-top: 10px;
 }
+
+.comment-toggle-btn {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
