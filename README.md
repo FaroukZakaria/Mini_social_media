@@ -1,4 +1,4 @@
-# alx-webstack_portfolio_project
+# Mini_social_media
 
 ## Setup
 
